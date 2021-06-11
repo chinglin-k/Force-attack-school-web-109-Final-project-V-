@@ -1,14 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using System.Net;
 
 namespace _01_02_
 {
@@ -278,19 +269,22 @@ namespace _01_02_
 
         private void textBox1_TextChanged(object sender, EventArgs e)//網址
         {
-            
+
         }
 
         private void button1_Click(object sender, EventArgs e)//start
         {
             textBox5.Clear();
             sum = 0;
-            sum = save + gen;
             //label5.Text = Convert.ToString(sum);
             string strT = "", strF = "";
 
             if (FFchecknum == true)
             {   //n1~n4 // *7 *6 *5 *4
+
+                sum = 0;
+                sum = sum + save + gen;
+
                 sum = sum + (n1 * 7);
                 sum = sum + (n2 * 6);
                 sum = sum + (n3 * 5);
@@ -318,19 +312,115 @@ namespace _01_02_
                 }
                 else if (Lchecknum == true)//末四與驗證不能同時觸發 //n5,n6,n7 //*3*2*1
                 {
-                    sum = sum + (n8 * 1);
+                    sum = 0;
                     for (int i = 0; i < 10; i++)
                     {
-                        n5 = i;
-                        sum = sum + (n5 * 3);
                         for (int j = 0; j < 10; j++)
                         {
-                            n6 = j;
-                            sum = sum + (n6 * 2);
-                            for (int k=0; k < 10; k++)
+                            for (int k = 0; k < 10; k++)
                             {
+                                n5 = i;
+                                sum = sum + (n5 * 3);
+                                n6 = j;
+                                sum = sum + (n6 * 2);
                                 n7 = k;
                                 sum = sum + (n7 * 1);
+
+                                sum = sum + save + gen;
+                                sum = sum + (n1 * 7);
+                                sum = sum + (n2 * 6);
+                                sum = sum + (n3 * 5);
+                                sum = sum + (n4 * 4);
+                                sum = sum + (n8 * 1);
+
+                                if ((sum % 10) == 0)
+                                {
+                                    strT = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "成功" + "\r\n";
+                                    textBox5.AppendText(strT);
+                                    //textBox5.AppendText(sum.ToString()+"\r\n");
+                                    Schecknum = true;//true後轉去http request
+                                }
+                                else
+                                {
+                                    strF = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "失敗" + "\r\n";
+                                    textBox5.AppendText(strF);
+                                    //textBox5.AppendText(sum.ToString()+"\r\n");
+                                }
+                                sum = 0;
+                            }
+                        }
+                    }
+                }
+                else if (LFchecknum == false && Lchecknum == false)//n5,n6,n7,n8 //*3*2*1*1
+                {
+                    sum = 0;
+                    for (int i = 0; i < 10; i++)
+                    { 
+                        for (int j = 0; j < 10; j++)
+                        {
+                            for (int k = 0; k < 10; k++)
+                            {
+                                for (int m = 0; m < 10; m++)
+                                {
+                                    n5 = i;
+                                    sum = sum + (n5 * 3);
+                                    n6 = j;
+                                    sum = sum + (n6 * 2);
+                                    n7 = k;
+                                    sum = sum + (n7 * 1);
+                                    n8 = m;
+                                    sum = sum + (n8 * 1);
+
+                                    sum = sum + save + gen;
+                                    sum = sum + (n1 * 7);
+                                    sum = sum + (n2 * 6);
+                                    sum = sum + (n3 * 5);
+                                    sum = sum + (n4 * 4);
+
+                                    if ((sum % 10) == 0)
+                                    {
+                                        strT = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "成功" + "\r\n";
+                                        textBox5.AppendText(strT);
+                                        Schecknum = true;//true後轉去http request
+                                    }
+                                    else
+                                    {
+                                        strF = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "失敗" + "\r\n";
+                                        textBox5.AppendText(strF);
+                                    }
+                                    sum = 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (FFchecknum == false && LFchecknum == true && Lchecknum == false)
+            {   //n5~n8 // *3 *2 *1 *1
+                sum = 0;
+                for (int i = 0; i < 10; i++)//n1~n4 // *7 *6 *5 *4
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        for (int k = 0; k < 10; k++)
+                        {
+                            for (int m = 0; m < 10; m++)
+                            {
+                                n1 = i;
+                                sum = sum + (n1 * 7);
+                                n2 = j;
+                                sum = sum + (n2 * 6);
+                                n3 = k;
+                                sum = sum + (n3 * 5);
+                                n4 = m;
+                                sum = sum + (n4 * 4);
+
+                                sum = sum + save + gen;
+                                sum = sum + (n5 * 3);
+                                sum = sum + (n6 * 2);
+                                sum = sum + (n7 * 1);
+                                sum = sum + (n8 * 1);
 
                                 if ((sum % 10) == 0)
                                 {
@@ -343,37 +433,61 @@ namespace _01_02_
                                     strF = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "失敗" + "\r\n";
                                     textBox5.AppendText(strF);
                                 }
+                                sum = 0;
                             }
                         }
                     }
-                }else if(LFchecknum == false && Lchecknum == false)//n5,n6,n7,n8 //*3*2*1*1
+                }
+            }
+
+            if (FFchecknum == false && LFchecknum == false && Lchecknum == true)
+            {   //n8 // *1
+                sum = 0;
+                for (int i = 0; i < 10; i++)//n1~n4 // *7 *6 *5 *4
                 {
-                    for (int i = 0; i < 10; i++)
+                    for (int j = 0; j < 10; j++)
                     {
-                        n5 = i;
-                        sum = sum + (n5 * 3);
-                        for (int j = 0; j < 10; j++)
+                        for (int k = 0; k < 10; k++)
                         {
-                            n6 = j;
-                            sum = sum + (n6 * 2);
-                            for (int k = 0; k < 10; k++)
+                            for (int m = 0; m < 10; m++)
                             {
-                                n7 = k;
-                                sum = sum + (n7 * 1);
-                                for(int m = 0; m < 10; m++)
+                                for (int n = 0; n < 10; n++)//n5,n6,n7 //*3*2*1
                                 {
-                                    n8 = m;
-                                    sum = sum+(n8*1);
-                                    if ((sum % 10) == 0)
+                                    for (int p = 0; p < 10; p++)
                                     {
-                                        strT = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "成功" + "\r\n";
-                                        textBox5.AppendText(strT);
-                                        Schecknum = true;//true後轉去http request
-                                    }
-                                    else
-                                    {
-                                        strF = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "失敗" + "\r\n";
-                                        textBox5.AppendText(strF);
+                                        for (int q = 0; q < 10; q++)
+                                        {
+                                            n1 = i;
+                                            sum = sum + (n1 * 7);
+                                            n2 = j;
+                                            sum = sum + (n2 * 6);
+                                            n3 = k;
+                                            sum = sum + (n3 * 5);
+                                            n4 = m;
+                                            sum = sum + (n4 * 4);
+                                            n5 = n;
+                                            sum = sum + (n5 * 3);
+                                            n6 = p;
+                                            sum = sum + (n6 * 2);
+                                            n7 = q;
+                                            sum = sum + (n7 * 1);
+
+                                            sum = sum + save + gen;
+                                            sum = sum + (n8 * 1);
+
+                                            if ((sum % 10) == 0)
+                                            {
+                                                strT = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "成功" + "\r\n";
+                                                textBox5.AppendText(strT);
+                                                Schecknum = true;//true後轉去http request
+                                            }
+                                            else
+                                            {
+                                                strF = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "失敗" + "\r\n";
+                                                textBox5.AppendText(strF);
+                                            }
+                                            sum = 0;
+                                        }
                                     }
                                 }
                             }
@@ -382,27 +496,72 @@ namespace _01_02_
                 }
             }
 
-            if (FFchecknum == false && LFchecknum == true && Lchecknum == false)
-            {   //n5~n8 // *3 *2 *1 *1
-                sum = sum + (n5 * 3);
-                sum = sum + (n6 * 2);
-                sum = sum + (n7 * 1);
-                sum = sum + (n8 * 1);
-            }
-
-            if (FFchecknum == false && LFchecknum == false && Lchecknum == true)
-            {   //n8 // *1
-                sum = sum + (n8 * 1);
-            }
-
             if (FFchecknum == false && LFchecknum == false && Lchecknum == false)
-            {   
-                
+            {
+                sum = 0;
+                for (int i = 0; i < 10; i++)//n1~n4 // *7 *6 *5 *4
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        for (int k = 0; k < 10; k++)
+                        {
+                            for (int m = 0; m < 10; m++)
+                            {
+                                for (int n = 0; n < 10; n++)//n5,n6,n7,n8 //*3*2*1*1
+                                {
+                                    for (int p = 0; p < 10; p++)
+                                    {
+                                        for (int q = 0; q < 10; q++)
+                                        {
+                                            for (int r = 0; r < 10; r++)
+                                            {
+                                                n1 = i;
+                                                sum = sum + (n1 * 7);
+                                                n2 = j;
+                                                sum = sum + (n2 * 6);
+                                                n3 = k;
+                                                sum = sum + (n3 * 5);
+                                                n4 = m;
+                                                sum = sum + (n4 * 4);
+                                                n5 = n;
+                                                sum = sum + (n5 * 3);
+                                                n6 = p;
+                                                sum = sum + (n6 * 2);
+                                                n7 = q;
+                                                sum = sum + (n7 * 1);
+                                                n8 = r;
+                                                sum = sum + (n8 * 1);
+
+                                                sum = sum + save + gen;
+
+                                                if ((sum % 10) == 0)
+                                                {
+                                                    strT = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "成功" + "\r\n";
+                                                    textBox5.AppendText(strT);
+                                                    Schecknum = true;//true後轉去http request
+                                                }
+                                                else
+                                                {
+                                                    strF = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "失敗" + "\r\n";
+                                                    textBox5.AppendText(strF);
+                                                }
+                                                sum = 0;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
+            //
+            //
+            if (Schecknum == true)//http request
+            {
 
-
+            }
         }
     }
 }
-//label5=測試輸出  // label5.Text = Convert.ToString();//
-//程式邏輯、語法沒問題，但測試錯誤
+//label5=測試輸出  // label5.Text = Convert.ToString();
