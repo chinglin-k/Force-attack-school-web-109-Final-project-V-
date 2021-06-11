@@ -344,8 +344,8 @@ namespace _01_02_
                                     textBox5.AppendText(strF);
                                 }
                             }
-                        }
-                    }
+                }
+            }
                 }else if(LFchecknum == false && Lchecknum == false)//n5,n6,n7,n8 //*3*2*1*1
                 {
                     for (int i = 0; i < 10; i++)
@@ -397,10 +397,10 @@ namespace _01_02_
 
             if (FFchecknum == false && LFchecknum == false && Lchecknum == false)
             {   
-                
+
             }
 
-
+            
         }
     }
 }
