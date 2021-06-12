@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Net;
+using System.Web;
+using System.Net.Http;
 
 namespace _01_02_
 {
@@ -290,16 +292,16 @@ namespace _01_02_
 
             if (FFchecknum == true)
             {   //n1~n4 // *7 *6 *5 *4
-
-                sum = 0;
-                sum = sum + save + gen;
-
-                sum = sum + (n1 * 7);
-                sum = sum + (n2 * 6);
-                sum = sum + (n3 * 5);
-                sum = sum + (n4 * 4);
                 if (LFchecknum == true)//末四與驗證不能同時觸發
                 {
+                    sum = 0;
+                    sum = sum + save + gen;
+
+                    sum = sum + (n1 * 7);
+                    sum = sum + (n2 * 6);
+                    sum = sum + (n3 * 5);
+                    sum = sum + (n4 * 4);
+
                     sum = sum + (n5 * 3);
                     sum = sum + (n6 * 2);
                     sum = sum + (n7 * 1);
@@ -313,11 +315,10 @@ namespace _01_02_
                     }
                     else
                     {
+                        Schecknum = false;
                         MessageBox.Show("ID無效，請重新輸入");
-                        textBox2.Clear();
-                        textBox3.Clear();
-                        textBox4.Clear();
                     }
+                    sum=0;
                 }
                 else if (Lchecknum == true)//末四與驗證不能同時觸發 //n5,n6,n7 //*3*2*1
                 {
@@ -354,6 +355,7 @@ namespace _01_02_
                                     strF = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "失敗" + "\r\n";
                                     textBox5.AppendText(strF);
                                     //textBox5.AppendText(sum.ToString()+"\r\n");
+                                    Schecknum = false;
                                 }
                                 sum = 0;
                             }
@@ -396,6 +398,7 @@ namespace _01_02_
                                     {
                                         strF = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "失敗" + "\r\n";
                                         textBox5.AppendText(strF);
+                                        Schecknum = false;
                                     }
                                     sum = 0;
                                 }
@@ -441,6 +444,7 @@ namespace _01_02_
                                 {
                                     strF = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "失敗" + "\r\n";
                                     textBox5.AppendText(strF);
+                                    Schecknum = false;
                                 }
                                 sum = 0;
                             }
@@ -494,6 +498,7 @@ namespace _01_02_
                                             {
                                                 strF = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "失敗" + "\r\n";
                                                 textBox5.AppendText(strF);
+                                                Schecknum = false;
                                             }
                                             sum = 0;
                                         }
@@ -553,6 +558,7 @@ namespace _01_02_
                                                 {
                                                     strF = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "失敗" + "\r\n";
                                                     textBox5.AppendText(strF);
+                                                    Schecknum = false;
                                                 }
                                                 sum = 0;
                                             }
