@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01_02_", "01_02_\01_02_.csproj", "{E886A0E8-D47E-4B5A-8674-73E03594426C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F6F4DF64-223B-462C-8AF0-61B7A25E376C}"
+	ProjectSection(SolutionItems) = preProject
+		01_02_\HttpHacker.py = 01_02_\HttpHacker.py
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

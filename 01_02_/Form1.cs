@@ -1,16 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using System.Net;
-using System.Web;
-using System.Net.Http;
+using System.Diagnostics;
 
 namespace _01_02_
 {
@@ -19,7 +9,7 @@ namespace _01_02_
         int sum = 0, save = 0, gen = 0;
         int n1 = 0, n2 = 0, n3 = 0, n4 = 0, n5 = 0, n6 = 0, n7 = 0, n8 = 0;// n1~n4是前四碼、n5~n8是後四碼、n8是驗證碼
         string ch, g;
-        bool FFchecknum, LFchecknum, Lchecknum, Schecknum;
+        bool FFchecknum, LFchecknum, Lchecknum;
         public Form1()
         {
             InitializeComponent();
@@ -283,12 +273,28 @@ namespace _01_02_
 
         }
 
+        private void textBox6_TextChanged(object sender, EventArgs e)//學號
+        {
+
+        }
+
+        private void textBox7_TextChanged(object sender, EventArgs e)//data
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)//Break
+        {
+            System.Environment.Exit(0);
+        }
+
         private void button1_Click(object sender, EventArgs e)//start
         {
             textBox5.Clear();
+            textBox7.Clear();
             sum = 0;
             //label5.Text = Convert.ToString(sum);
-            string strT = "", strF = "";
+            string strT = "";
 
             if (FFchecknum == true)
             {   //n1~n4 // *7 *6 *5 *4
@@ -309,16 +315,44 @@ namespace _01_02_
                     //MessageBox.Show(Convert.ToString(sum));
                     if ((sum % 10) == 0)
                     {
-                        strT = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "成功" + "\r\n";
-                        textBox5.AppendText(strT);
-                        Schecknum = true;//true後轉去http request
+                        strT = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString();
+                        //textBox5.AppendText(strT + "\r\n");
+                        //Schecknum = true;//true後轉去http request
+                        var psi = new ProcessStartInfo();
+                        psi.FileName = @"C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\python.exe";
+                        var script = @"D:\Programs\coding\109-2自主學習\try\12Num(地區、性別)\01_02_\01_02_\HttpHacker.py";
+                        string id = textBox6.Text;
+                        string pd = strT;
+                        psi.Arguments = $"\"{script}\" \"{id}\" \"{pd}\"";
+                        psi.UseShellExecute = false;
+                        psi.CreateNoWindow = true;
+                        psi.RedirectStandardOutput = true;
+                        psi.RedirectStandardError = true;
+                        var results = "";
+                        using (var process = Process.Start(psi))
+                        {
+                            results = process.StandardOutput.ReadToEnd();
+                        }
+
+                        if (results.Contains("None"))
+                        {
+                            textBox5.AppendText(pd + "失敗" + "\r\n");
+                            textBox7.AppendText(results);
+                        }
+                        else
+                        {
+                            textBox5.AppendText(pd + "成功" + "\r\n");
+                            textBox7.AppendText(results);
+                            goto End;
+                        }
                     }
                     else
                     {
-                        Schecknum = false;
+                        //Schecknum = false;
                         MessageBox.Show("ID無效，請重新輸入");
                     }
                     sum=0;
+
                 }
                 else if (Lchecknum == true)//末四與驗證不能同時觸發 //n5,n6,n7 //*3*2*1
                 {
@@ -345,19 +379,41 @@ namespace _01_02_
 
                                 if ((sum % 10) == 0)
                                 {
-                                    strT = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "成功" + "\r\n";
-                                    textBox5.AppendText(strT);
+                                    strT = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString();
+                                    //textBox5.AppendText(strT + "\r\n");
                                     //textBox5.AppendText(sum.ToString()+"\r\n");
-                                    Schecknum = true;//true後轉去http request
+                                    //Schecknum = true;//true後轉去http request
+                                    var psi = new ProcessStartInfo();
+                                    psi.FileName = @"C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\python.exe";
+                                    var script = @"D:\Programs\coding\109-2自主學習\try\12Num(地區、性別)\01_02_\01_02_\HttpHacker.py";
+                                    string id = textBox6.Text;
+                                    string pd = strT;
+                                    psi.Arguments = $"\"{script}\" \"{id}\" \"{pd}\"";
+                                    psi.UseShellExecute = false;
+                                    psi.CreateNoWindow = true;
+                                    psi.RedirectStandardOutput = true;
+                                    psi.RedirectStandardError = true;
+                                    var results = "";
+                                    using (var process = Process.Start(psi))
+                                    {
+                                        results = process.StandardOutput.ReadToEnd();
+                                    }
+
+                                    if (results.Contains("None"))
+                                    {
+                                        textBox5.AppendText(pd + "失敗" + "\r\n");
+                                        textBox7.AppendText(results);
+                                    }
+                                    else
+                                    {
+                                        textBox5.AppendText(pd + "成功" + "\r\n");
+                                        textBox7.AppendText(results);
+                                        goto End;
+                                    }
                                 }
-                                else
-                                {
-                                    strF = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "失敗" + "\r\n";
-                                    textBox5.AppendText(strF);
-                                    //textBox5.AppendText(sum.ToString()+"\r\n");
-                                    Schecknum = false;
-                                }
+                                
                                 sum = 0;
+
                             }
                         }
                     }
@@ -390,17 +446,40 @@ namespace _01_02_
 
                                     if ((sum % 10) == 0)
                                     {
-                                        strT = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "成功" + "\r\n";
-                                        textBox5.AppendText(strT);
-                                        Schecknum = true;//true後轉去http request
+                                        strT = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString();
+                                        //textBox5.AppendText(strT + "\r\n");
+                                        //Schecknum = true;//true後轉去http request
+                                        var psi = new ProcessStartInfo();
+                                        psi.FileName = @"C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\python.exe";
+                                        var script = @"D:\Programs\coding\109-2自主學習\try\12Num(地區、性別)\01_02_\01_02_\HttpHacker.py";
+                                        string id = textBox6.Text;
+                                        string pd = strT;
+                                        psi.Arguments = $"\"{script}\" \"{id}\" \"{pd}\"";
+                                        psi.UseShellExecute = false;
+                                        psi.CreateNoWindow = true;
+                                        psi.RedirectStandardOutput = true;
+                                        psi.RedirectStandardError = true;
+                                        var results = "";
+                                        using (var process = Process.Start(psi))
+                                        {
+                                            results = process.StandardOutput.ReadToEnd();
+                                        }
+
+                                        if (results.Contains("None"))
+                                        {
+                                            textBox5.AppendText(pd + "失敗" + "\r\n");
+                                            textBox7.AppendText(results);
+                                        }
+                                        else
+                                        {
+                                            textBox5.AppendText(pd + "成功" + "\r\n");
+                                            textBox7.AppendText(results);
+                                            goto End;
+                                        }
                                     }
-                                    else
-                                    {
-                                        strF = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "失敗" + "\r\n";
-                                        textBox5.AppendText(strF);
-                                        Schecknum = false;
-                                    }
+                                    
                                     sum = 0;
+
                                 }
                             }
                         }
@@ -436,17 +515,40 @@ namespace _01_02_
 
                                 if ((sum % 10) == 0)
                                 {
-                                    strT = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "成功" + "\r\n";
-                                    textBox5.AppendText(strT);
-                                    Schecknum = true;//true後轉去http request
+                                    strT = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString();
+                                    //textBox5.AppendText(strT + "\r\n");
+                                    //Schecknum = true;//true後轉去http request
+                                    var psi = new ProcessStartInfo();
+                                    psi.FileName = @"C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\python.exe";
+                                    var script = @"D:\Programs\coding\109-2自主學習\try\12Num(地區、性別)\01_02_\01_02_\HttpHacker.py";
+                                    string id = textBox6.Text;
+                                    string pd = strT;
+                                    psi.Arguments = $"\"{script}\" \"{id}\" \"{pd}\"";
+                                    psi.UseShellExecute = false;
+                                    psi.CreateNoWindow = true;
+                                    psi.RedirectStandardOutput = true;
+                                    psi.RedirectStandardError = true;
+                                    var results = "";
+                                    using (var process = Process.Start(psi))
+                                    {
+                                        results = process.StandardOutput.ReadToEnd();
+                                    }
+
+                                    if (results.Contains("None"))
+                                    {
+                                        textBox5.AppendText(pd + "失敗" + "\r\n");
+                                        textBox7.AppendText(results);
+                                    }
+                                    else
+                                    {
+                                        textBox5.AppendText(pd + "成功" + "\r\n");
+                                        textBox7.AppendText(results);
+                                        goto End;
+                                    }
                                 }
-                                else
-                                {
-                                    strF = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "失敗" + "\r\n";
-                                    textBox5.AppendText(strF);
-                                    Schecknum = false;
-                                }
+                                
                                 sum = 0;
+
                             }
                         }
                     }
@@ -490,17 +592,40 @@ namespace _01_02_
 
                                             if ((sum % 10) == 0)
                                             {
-                                                strT = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "成功" + "\r\n";
-                                                textBox5.AppendText(strT);
-                                                Schecknum = true;//true後轉去http request
+                                                strT = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString();
+                                                //textBox5.AppendText(strT + "\r\n");
+                                                //Schecknum = true;//true後轉去http request
+                                                var psi = new ProcessStartInfo();
+                                                psi.FileName = @"C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\python.exe";
+                                                var script = @"D:\Programs\coding\109-2自主學習\try\12Num(地區、性別)\01_02_\01_02_\HttpHacker.py";
+                                                string id = textBox6.Text;
+                                                string pd = strT;
+                                                psi.Arguments = $"\"{script}\" \"{id}\" \"{pd}\"";
+                                                psi.UseShellExecute = false;
+                                                psi.CreateNoWindow = true;
+                                                psi.RedirectStandardOutput = true;
+                                                psi.RedirectStandardError = true;
+                                                var results = "";
+                                                using (var process = Process.Start(psi))
+                                                {
+                                                    results = process.StandardOutput.ReadToEnd();
+                                                }
+
+                                                if (results.Contains("None"))
+                                                {
+                                                    textBox5.AppendText(pd + "失敗" + "\r\n");
+                                                    textBox7.AppendText(results);
+                                                }
+                                                else
+                                                {
+                                                    textBox5.AppendText(pd + "成功" + "\r\n");
+                                                    textBox7.AppendText(results);
+                                                    goto End;
+                                                }
                                             }
-                                            else
-                                            {
-                                                strF = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "失敗" + "\r\n";
-                                                textBox5.AppendText(strF);
-                                                Schecknum = false;
-                                            }
+                                            
                                             sum = 0;
+
                                         }
                                     }
                                 }
@@ -550,17 +675,40 @@ namespace _01_02_
 
                                                 if ((sum % 10) == 0)
                                                 {
-                                                    strT = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "成功" + "\r\n";
-                                                    textBox5.AppendText(strT);
-                                                    Schecknum = true;//true後轉去http request
+                                                    strT = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString();
+                                                    //textBox5.AppendText(strT + "\r\n");
+                                                    //Schecknum = true;//true後轉去http request
+                                                    var psi = new ProcessStartInfo();
+                                                    psi.FileName = @"C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\python.exe";
+                                                    var script = @"D:\Programs\coding\109-2自主學習\try\12Num(地區、性別)\01_02_\01_02_\HttpHacker.py";
+                                                    string id = textBox6.Text;
+                                                    string pd = strT;
+                                                    psi.Arguments = $"\"{script}\" \"{id}\" \"{pd}\"";
+                                                    psi.UseShellExecute = false;
+                                                    psi.CreateNoWindow = true;
+                                                    psi.RedirectStandardOutput = true;
+                                                    psi.RedirectStandardError = true;
+                                                    var results = "";
+                                                    using (var process = Process.Start(psi))
+                                                    {
+                                                        results = process.StandardOutput.ReadToEnd();
+                                                    }
+
+                                                    if (results.Contains("None"))
+                                                    {
+                                                        textBox5.AppendText(pd + "失敗" + "\r\n");
+                                                        textBox7.AppendText(results);
+                                                    }
+                                                    else
+                                                    {
+                                                        textBox5.AppendText(pd + "成功" + "\r\n");
+                                                        textBox7.AppendText(results);
+                                                        goto End;
+                                                    }
                                                 }
-                                                else
-                                                {
-                                                    strF = ch + g + n1.ToString() + n2.ToString() + n3.ToString() + n4.ToString() + n5.ToString() + n6.ToString() + n7.ToString() + n8.ToString() + "失敗" + "\r\n";
-                                                    textBox5.AppendText(strF);
-                                                    Schecknum = false;
-                                                }
+                                                
                                                 sum = 0;
+
                                             }
                                         }
                                     }
@@ -571,11 +719,50 @@ namespace _01_02_
                 }
             }
             //
-            //
+            /*
             if (Schecknum == true)//http request
             {
 
+                var psi = new ProcessStartInfo();
+                psi.FileName = @"C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\python.exe";
+
+                var script = @"D:\程式\coding\109-2自主學習\try\12Num(地區、性別)\01_02_\01_02_\HttpHacker.py";
+                string id = textBox6.Text;
+                string ps = strT;
+
+                psi.Arguments = $"\"{script}\" \"{id}\" \"{ps}\"";
+
+                psi.UseShellExecute = false;
+                psi.CreateNoWindow = true;
+                psi.RedirectStandardOutput = true;
+                psi.RedirectStandardError = true;
+
+                var results = "";
+
+                using (var process = Process.Start(psi))
+                {
+                    results = process.StandardOutput.ReadToEnd();
+                }
+
+                string ans = results;
+                string check = "Nope";
+
+                if (ans == check)
+                {
+                    textBox5.AppendText(ps + "失敗" + "\r\n");
+                }
+                else
+                {
+                    textBox5.AppendText(ps + "成功" + "\r\n");
+                    textBox7.AppendText(results);
+                    Entercheck = true;
+
+                }
             }
+            */
+        End:
+            textBox5.AppendText("");
+            textBox5.AppendText("Heck By Chinglin <(￣︶￣)>");
         }
     }
 }
